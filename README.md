@@ -2,7 +2,9 @@
 
 ## Description
 
-${data.description}
+A command line application to keep track of your employee database. It allows you to view your departments, roles, and employees as well as modifying those values.
+
+[Video Submission](https://www.youtube.com/watch?v=W5N8sPW3XVs)
 
 ## Table of Contents
 
@@ -10,18 +12,31 @@ ${data.description}
 - [Usage](#usage)
 - [License](#license)
 - [Contributing](#contributing)
-- [Tests](#tests)
 - [Questions](#questions)
 
 
 ## Installation
 
-[]
+require a local mySQL server [Download here](https://dev.mysql.com/downloads/)
+
+clone the repo and
+```npm install```
+
+Create a mySQL database by connecting to your sql server in  the terminal
+
+```mysql -u <username> -p```
+
+run the commands
+
+```source ./db/schema.sql``` and ```source ./db/seeds.sql```
 
 
 ## Usage
 
-[]
+
+```npm start``` and follow the prompts
+
+![main menu](./assets/images/01-main.jpg)
 
 ## License
 
@@ -31,9 +46,6 @@ ${data.description}
 
 [Contributor Covenant](https://www.contributor-covenant.org/)
 
-## Tests
-
-[]
 
 ## Questions
 
