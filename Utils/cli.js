@@ -5,6 +5,7 @@ import db from "../config/connection.js";
 
 export class Cli {
 
+  // inquirer prompts
   #questions = {
     mainMenu: [
       {
@@ -137,6 +138,7 @@ export class Cli {
     }],
   };
 
+  // sql statements
   #deptQ = {
     viewAll: `SELECT * FROM department;`,
     viewName: `SELECT name FROM department`,
@@ -146,13 +148,9 @@ export class Cli {
 
   #roleQ = {
     viewAll: `
-      SELECT
-        r.id, r.title, d.name AS department, salary
-      FROM
-        role as r
-      JOIN
-        department as d
-        ON r.department_id = d.id;`,
+      SELECT r.id, r.title, d.name AS department, salary
+      FROM role as r
+      JOIN department as d ON r.department_id = d.id;`,
     add: `INSERT INTO role(title, salary, department_id) VALUES (?, ?, ?)`,
     viewRoles: `SELECT id, title FROM role`,
     delete: `DELETE FROM role WHERE title = ?`,
@@ -160,18 +158,13 @@ export class Cli {
 
   #empQ = {
     viewAll: `
-      SELECT
-        e.id, e.first_name, e.last_name, r.title, d.name AS department, r.salary, CONCAT(m.first_name, " ", m.last_name) AS manager
-      FROM
-        employee AS e
-      LEFT JOIN
-        role AS r ON e.role_id = r.id
-      LEFT JOIN
-        department AS d ON r.department_id = d.id
-      LEFT JOIN
-        employee AS m ON e.manager_id = m.id
-      ORDER BY
-        e.id;`,
+      SELECT e.id, e.first_name, e.last_name, r.title, d.name AS department, r.salary,
+        CONCAT(m.first_name, " ", m.last_name) AS manager
+      FROM employee AS e
+      LEFT JOIN role AS r ON e.role_id = r.id
+      LEFT JOIN department AS d ON r.department_id = d.id
+      LEFT JOIN employee AS m ON e.manager_id = m.id
+      ORDER BY e.id;`,
     viewEmployees: `
       SELECT id, CONCAT(first_name, " ", last_name) as name
       FROM employee`,
@@ -191,11 +184,11 @@ export class Cli {
     updateRole: `UPDATE employee SET role_id = ? WHERE id = ?`,
     updateManager: `UPDATE employee SET manager_id = ? WHERE id = ?`,
     delete: `DELETE FROM employee WHERE id = ?`,
-
-
   };
 
-
+  /**
+  * Run the CLI
+  */
   async run() {
     const { userInput } = await inquirer.prompt(this.#questions.mainMenu);
 
@@ -409,6 +402,12 @@ export class Cli {
     }
   };
 
+  /**
+   *
+   * @param {string} sql - SQL statement or Prepared Statements
+   * @param {string[]} v - SQL value
+   * @returns string[] - return data from mySQL | null if error
+   */
   async #sqlQuery(sql, v) {
     // console.log(sql, v);
 
@@ -422,6 +421,10 @@ export class Cli {
     }
   };
 
+  /**
+   *
+   * @param {Object[]} results - Array of objects to be render as table
+   */
   async #renderTable(results) {
     const table = new Table({
       head: Object.keys(results[0])
