@@ -3,7 +3,7 @@ import Table from "cli-table3";
 
 import db from "../config/connection.js";
 
-export class Cli {
+export default class Cli {
 
   // inquirer prompts
   #questions = {
